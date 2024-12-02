@@ -75,6 +75,8 @@ you can also save the printed text into a file:
 python main.py -u ohnePixel -l 50 > tweets.txt
 ```
 
+if you leave out the ``-l``, the program will fetch all tweets of the given user
+
 ## logging
 
 + The script uses Python's built-in logging module to log exceptions during:
@@ -92,7 +94,7 @@ python main.py -u ohnePixel -l 50 > tweets.txt
 
 ## notes
 
-Rate Limiting: built in delay of 0.25 seconds to avoid being banned for scraping
+Rate Limiting: built in delay of 0.5 seconds to avoid being banned for scraping
     
 Async Operations: everything is async
 
