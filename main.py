@@ -6,6 +6,15 @@ import logging
 
 from twikit import Client
 from dotenv import load_dotenv
+import twikit
+
+def twikit_result_to_list(result: twikit.utils.Result):
+    tweet_list = []
+
+    for tweet in result:
+        tweet_list.append(tweet)
+
+    return tweet_list
 
 
 async def print_user_tweets(client, user_name, limit):
@@ -26,7 +35,11 @@ async def print_user_tweets(client, user_name, limit):
         sep='\n'
     )
 
-    user_tweets = await user.get_tweets('Tweets')
+    if limit == 0:
+        limit = user.statuses_count
+
+    user_tweets_result = await user.get_tweets('Tweets')
+    user_tweets = twikit_result_to_list(user_tweets_result)
 
     counter = 0
     for tweet in user_tweets:
@@ -35,10 +48,18 @@ async def print_user_tweets(client, user_name, limit):
         if counter >= limit:
             break
 
-        time.sleep(0.25)
+        time.sleep(0.5)
         print(tweet.text)
         counter += 1
-        await user_tweets.next()
+
+        if counter == len(user_tweets):
+            user_tweets_result = await user_tweets_result.next()
+
+            more_tweets = twikit_result_to_list(user_tweets_result)
+
+            for new_tweet in more_tweets:
+                user_tweets.append(new_tweet)
+        
 
 
 async def main(user_name, limit):
@@ -65,7 +86,7 @@ async def main(user_name, limit):
 
 
 if __name__ == "__main__":
-    limit = 100
+    limit = 0
 
     user_name = ""
 
@@ -78,7 +99,6 @@ if __name__ == "__main__":
     try:
         limit = int(sys.argv[sys.argv.index("-l")+1])
     except ValueError:
-        print("limit not set, using default 100")
-
+        print("limit not set getting all tweets")
 
     asyncio.run(main(user_name, limit))
