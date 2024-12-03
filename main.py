@@ -117,6 +117,6 @@ if __name__ == "__main__":
     try:
         date_limit = datetime.strptime(sys.argv[sys.argv.index("-d")+1], date_format).replace(tzinfo=timezone.utc)
     except ValueError:
-        print("date (-d) flag not in correct format: Y-m-d")
+        print("no date limit set")
 
     asyncio.run(main(user_name, tweet_limit, date_limit))
