@@ -64,18 +64,28 @@ python main.py -u <username> [-l <limit>]
 ### example
 
 ```bash
-python main.py -u ohnePixel -l 50
+python main.py -u ohnePixel
 ```
 
-This will fetch and display the latest 50 tweets from ohnePixel's timeline.
+This will fetch and display all tweets from ohnePixel's timeline.
 
 you can also save the printed text into a file:
 
 ```bash
-python main.py -u ohnePixel -l 50 > tweets.txt
+python main.py -u ohnePixel > tweets.txt
 ```
 
-if you leave out the ``-l``, the program will fetch all tweets of the given user
+To limit the amount of tweets, you can use ``-l``
+
+```bash
+python main.py -u ohnePixel -l 50
+```
+
+To limit the date, you can use ``-d``. The correct format is YYYY-MM-DD.
+
+```bash
+python main.py -u ohnePixel -d 2023-01-01
+```
 
 ## logging
 
@@ -98,6 +108,6 @@ Rate Limiting: built in delay of 0.5 seconds to avoid being banned for scraping
     
 Async Operations: everything is async
 
-## Disclaimer
+## disclaimer
 
 Not my fault if your account gets banned. Program crashes sometimes because twitter login is unreliable
